@@ -18,6 +18,15 @@ ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = [
+    # Local apps first to override templates
+    'core.apps.CoreConfig',
+    'members.apps.MembersConfig',
+    'associations.apps.AssociationsConfig',
+    'clubs.apps.ClubsConfig',
+    'payments.apps.PaymentsConfig',
+    'dashboard.apps.DashboardConfig',
+    
+    # Django default apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -34,14 +43,6 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    
-    # Local apps
-    'core.apps.CoreConfig',
-    'members.apps.MembersConfig',
-    'associations.apps.AssociationsConfig',
-    'clubs.apps.ClubsConfig',
-    'payments.apps.PaymentsConfig',
-    'dashboard.apps.DashboardConfig',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ member.full_name }} - 会員詳細{% endblock %}
+
+{% block content %}
+<div>
+    <div class="md:grid md:grid-cols-3 md:gap-6">
+        <div class="md:col-span-1">
+            <div class="px-4 sm:px-0">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">会員情報</h3>
+                <p class="mt-1 text-sm text-gray-600">
+                    会員の基本情報を表示しています。
+                </p>
+            </div>
+        </div>
+        <div class="mt-5 md:mt-0 md:col-span-2">
+            <div class="shadow sm:rounded-md sm:overflow-hidden">
+                <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                    <div class="grid grid-cols-6 gap-6">
+                        <div class="col-span-6 sm:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700">会員番号</label>
+                            <div class="mt-1 text-sm text-gray-900">{{ member.membership_number }}</div>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700">ステータス</label>
+                            <div class="mt-1">
+                                <span class="inline-flex rounded-full px-2 text-xs font-semibold leading-5 {% if member.status == 'active' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                                    {{ member.get_status_display }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700">氏名</label>
+                            <div class="mt-1 text-sm text-gray-900">{{ member.full_name }}</div>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700">カナ</label>
+                            <div class="mt-1 text-sm text-gray-900">{{ member.full_name_kana }}</div>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700">生年月日</label>
+                            <div class="mt-1 text-sm text-gray-900">{{ member.birth_date|date:"Y年m月d日" }}</div>
+                        </div>
+
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">住所</label>
+                            <div class="mt-1 text-sm text-gray-900">{{ member.address }}</div>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700">電話番号</label>
+                            <div class="mt-1 text-sm text-gray-900">{{ member.phone_number }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hidden sm:block" aria-hidden="true">
+        <div class="py-5">
+            <div class="border-t border-gray-200"></div>
+        </div>
+    </div>
+
+    <div class="md:grid md:grid-cols-3 md:gap-6">
+        <div class="md:col-span-1">
+            <div class="px-4 sm:px-0">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">緊急連絡先</h3>
+                <p class="mt-1 text-sm text-gray-600">
+                    緊急時の連絡先情報です。
+                </p>
+            </div>
+        </div>
+        <div class="mt-5 md:mt-0 md:col-span-2">
+            <div class="shadow sm:rounded-md sm:overflow-hidden">
+                <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                    <div class="grid grid-cols-6 gap-6">
+                        <div class="col-span-6 sm:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700">氏名</label>
+                            <div class="mt-1 text-sm text-gray-900">{{ member.emergency_contact_name }}</div>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700">電話番号</label>
+                            <div class="mt-1 text-sm text-gray-900">{{ member.emergency_contact_phone }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hidden sm:block" aria-hidden="true">
+        <div class="py-5">
+            <div class="border-t border-gray-200"></div>
+        </div>
+    </div>
+
+    <div class="flex justify-end">
+        <a href="{% url 'members:update' member.pk %}" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            編集
+        </a>
+    </div>
+</div>
+{% endblock %}

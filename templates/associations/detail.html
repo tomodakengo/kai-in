@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ association.name }} - 協会詳細{% endblock %}
+
+{% block content %}
+<div>
+    <div class="md:grid md:grid-cols-3 md:gap-6">
+        <div class="md:col-span-1">
+            <div class="px-4 sm:px-0">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">協会情報</h3>
+                <p class="mt-1 text-sm text-gray-600">
+                    協会の基本情報を表示しています。
+                </p>
+            </div>
+        </div>
+        <div class="mt-5 md:mt-0 md:col-span-2">
+            <div class="shadow sm:rounded-md sm:overflow-hidden">
+                <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                    <div class="grid grid-cols-6 gap-6">
+                        <div class="col-span-6 sm:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700">名称</label>
+                            <div class="mt-1 text-sm text-gray-900">{{ association.name }}</div>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700">コード</label>
+                            <div class="mt-1 text-sm text-gray-900">{{ association.code }}</div>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700">種別</label>
+                            <div class="mt-1 text-sm text-gray-900">{{ association.get_type_display }}</div>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700">ステータス</label>
+                            <div class="mt-1">
+                                <span class="inline-flex rounded-full px-2 text-xs font-semibold leading-5 {% if association.is_active %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                                    {{ association.is_active|yesno:"有効,無効" }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">説明</label>
+                            <div class="mt-1 text-sm text-gray-900">{{ association.description|linebreaksbr }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hidden sm:block" aria-hidden="true">
+        <div class="py-5">
+            <div class="border-t border-gray-200"></div>
+        </div>
+    </div>
+
+    <div class="md:grid md:grid-cols-3 md:gap-6">
+        <div class="md:col-span-1">
+            <div class="px-4 sm:px-0">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">連絡先情報</h3>
+                <p class="mt-1 text-sm text-gray-600">
+                    協会の連絡先情報です。
+                </p>
+            </div>
+        </div>
+        <div class="mt-5 md:mt-0 md:col-span-2">
+            <div class="shadow sm:rounded-md sm:overflow-hidden">
+                <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                    <div class="grid grid-cols-6 gap-6">
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">住所</label>
+                            <div class="mt-1 text-sm text-gray-900">{{ association.address }}</div>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700">電話番号</label>
+                            <div class="mt-1 text-sm text-gray-900">{{ association.phone }}</div>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700">メールアドレス</label>
+                            <div class="mt-1 text-sm text-gray-900">{{ association.email }}</div>
+                        </div>
+
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">ウェブサイト</label>
+                            <div class="mt-1 text-sm text-gray-900">
+                                {% if association.website %}
+                                    <a href="{{ association.website }}" target="_blank" class="text-indigo-600 hover:text-indigo-900">{{ association.website }}</a>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hidden sm:block" aria-hidden="true">
+        <div class="py-5">
+            <div class="border-t border-gray-200"></div>
+        </div>
+    </div>
+
+    <!-- 所属会員一覧 -->
+    <div class="md:grid md:grid-cols-3 md:gap-6">
+        <div class="md:col-span-1">
+            <div class="px-4 sm:px-0">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">所属会員</h3>
+                <p class="mt-1 text-sm text-gray-600">
+                    この協会に所属している会員の一覧です。
+                </p>
+            </div>
+        </div>
+        <div class="mt-5 md:mt-0 md:col-span-2">
+            <div class="shadow sm:rounded-md sm:overflow-hidden">
+                <div class="bg-white">
+                    <div class="px-4 py-3 flex justify-between items-center">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">会員一覧</h3>
+                        <a href="{% url 'associations:member_add' association.pk %}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            会員追加
+                        </a>
+                    </div>
+                    <div class="border-t border-gray-200">
+                        <ul role="list" class="divide-y divide-gray-200">
+                            {% for member in association.associationmember_set.all %}
+                            <li class="px-4 py-4 flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-900">{{ member.member.full_name }}</p>
+                                        <p class="text-sm text-gray-500">{{ member.member.membership_number }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {% if member.is_staff %}bg-green-100 text-green-800{% else %}bg-gray-100 text-gray-800{% endif %}">
+                                        {{ member.is_staff|yesno:"スタッフ,一般" }}
+                                    </span>
+                                    <form method="post" action="{% url 'associations:member_remove' association.pk member.member.pk %}" class="inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="text-red-600 hover:text-red-900">
+                                            削除
+                                        </button>
+                                    </form>
+                                </div>
+                            </li>
+                            {% empty %}
+                            <li class="px-4 py-4 text-sm text-gray-500">
+                                所属会員はいません。
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hidden sm:block" aria-hidden="true">
+        <div class="py-5">
+            <div class="border-t border-gray-200"></div>
+        </div>
+    </div>
+
+    <div class="flex justify-end">
+        <a href="{% url 'associations:update' association.pk %}" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            編集
+        </a>
+    </div>
+</div>
+{% endblock %}
